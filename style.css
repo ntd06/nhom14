@@ -1,0 +1,102 @@
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    background-color: #36096d;
+    background-image: linear-gradient(315deg, #2a0e81 0%, #2ca4a5 74%);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+}
+
+h1,
+h2 {
+    margin: 0;
+}
+
+h1 {
+    padding: 30px 0 10px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.left, .right {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+    padding: 15px 30px 30px;
+    height: 400px;
+    width: 315px;
+    overflow: hidden;
+    margin-right: 50px;
+}
+
+.right {
+    margin: 0;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item>span:nth-child(1) {
+    font-size: 17px;
+}
+
+.item>span:nth-child(2) {
+    font-weight: 700;
+    font-size: 22px;
+    padding: 10px 0 20px;
+}
+
+.item ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: circle;
+    margin-top: 10px;
+}
+
+.item ul li {
+    text-transform: capitalize;
+    padding: 5px 0;
+}
+
+.item ul li>span:nth-child(1) {
+    font-weight: 500;
+    width: 155px;
+    display: inline-block;
+}
+
+.subject-title {
+    font-weight: 500!important;
+    font-style: italic;
+    font-size: 15px!important;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    max-width: 100%;
+}
+
+.right table img {
+    width: 110px;
+    height: 110px;
+}
+
+.right table tr th {
+    border-bottom: 10px solid #fff;
+    border-top: 10px solid #fff;
+}

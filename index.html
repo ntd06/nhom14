@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Theo dõi sức khỏe MQTT</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+	<script type="text/javascript" language="javascript">
+		var max, at_OK;
+		function makeid() {
+			var text = "";
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+			for (var i = 0; i < 5; i++)
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+			return text;
+		}
+		// Create a client instance
+		var client = new Paho.MQTT.Client("broker.hivemq.com", 8000, makeid());
+
+		// set callback handlers
+		client.onConnectionLost = onConnectionLost;
+		client.onMessageArrived = onMessageArrived;
+
+		var options = {
+			useSSL: false,
+			userName: "",
+			password: "",
+			onSuccess: onConnect,
+			onFailure: doFail
+		}
+
+
+		console.log("Connect to broker.hivemq.com:8000");
+		// connect the client
+		client.connect(options);
+
+		function doFail(e) {
+			console.log(e);
+		}
+
+		function onConnect() //sự kiên kết nối thành công
+		{
+			console.log("Connect OK");
+			client.subscribe("HeartBeat__DTI"); //đăng kí kênh 
+			client.subscribe("SpO2__DTI");
+			client.subscribe("Temp__DTI");
+		}
+
+		// called when the client loses its connection
+		function onConnectionLost(responseObject) {
+			if (responseObject.errorCode !== 0) {
+				console.log(responseObject.errorMessage);
+			}
+		}
+
+		// called when a message arrives
+		function onMessageArrived(message) {
+			console.log(message.destinationName + ":" + message.payloadString);
+			document.getElementById(message.destinationName).innerHTML = message.payloadString;
+			//document.getElementById("Gas_DTI").innerHTML = message.payloadString;
+		}
+		function public(topic, data) {
+			message = new Paho.MQTT.Message(data);
+			message.destinationName = topic;
+			client.send(message);
+		}
+	</script>
+</head>
+
+<body>
+	<h1 align="center"> Theo dõi sức khỏe - MQTT </h1>
+	<div class="wrapper">
+		<div class="left">
+			<div class="logo">
+				<img src="logo2.png" alt="">
+			</div>
+			<div class="item">
+				<span>Đề tài:</span>
+				<span class="subject-title">Ứng dụng ESP8266 trong kiểm tra và theo dõi sức khoẻ</span>
+			</div>
+			<div class="item">
+				<span>Giảng viên hướng dẫn:</span>
+				<span>TS. Nguyễn Duy Đỉnh</span>
+			</div>
+			<div class="item">
+				<span>Sinh viên:</span>
+				<ul>
+					<li>
+						<span>nguyễn tiến đạt</span><span>20200416P</span>
+					</li>
+					<li>
+						<span>Nguyễn hải dương</span><span>20200415P</span>
+					</li>
+					<li>
+						<span>Trịnh hồng đức</span><span>20200419P</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="right">
+			<table align="center">
+				<tr>
+					<th><img src="heartbeat.png"></th>
+					<th>
+						<h2 align="center" style="width:100px; color:#ed1b24" id="HeartBeat__DTI"> ... </h2>
+					</th>
+					<th>
+						<h2> bpm </h2>
+					</th>
+				</tr>
+				<tr>
+					<th><img src="spo2.png"></th>
+					<th>
+						<h2 align="center" style="color:#3e67b1" id="SpO2__DTI"> ... </h2>
+					</th>
+					<th>
+						<h2> % </h2>
+					</th>
+				</tr>
+				<tr>
+					<th><img src="temp.png"></th>
+					<th>
+						<h2 align="center" style="color:#474747" id="Temp__DTI"> ... </h2>
+					</th>
+					<th>
+						<h2> °C </h2>
+					</th>
+			</table>
+		</div>
+	</div>
+
+</body>
+
+</html>
